@@ -16,7 +16,7 @@ class Starter:
         self.targetPort = 5005
         self.intensity = 1
         self.time = 10
-        self.size = 100
+        self.size = 20
         self.message = 'DJJHWIUHFOJEFKFJEOPJFPO'
         
         print 'Default values set'
@@ -50,7 +50,8 @@ class Starter:
         
     def createPayload(self, random, size):
         if random:
-            self.message = self.id_generator(size, string.ascii_uppercase + string.digits)
+            self.message = str(time.time())
+            self.message += ','+self.id_generator(size-len(self.message), string.ascii_uppercase + string.digits)
         else:
             print 'Creating non-random payload' 
     
@@ -62,7 +63,7 @@ class Starter:
         self.printValues()
         startTime = time.time()
         while (time.time() < startTime+self.time):
-            self.createPayload(True, 100)
+            self.createPayload(True, self.size)
             self.sendUDP(self.message)
             print '.'
             time.sleep(1)
@@ -74,7 +75,7 @@ inputText = ''
 while (inputText != 'q'):
     inputText = run.menu()
     if inputText == '6':
-        run.startTest() 
+        run.startTest()
 
 
 
