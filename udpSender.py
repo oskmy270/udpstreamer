@@ -9,16 +9,6 @@ import os
 class Starter:
 
     def __init__(self):
-<<<<<<< HEAD
-=======
-        self.targetIP = '127.0.0.1'
-        self.targetPort = 5005
-        self.intensity = 1
-        self.time = 10
-        self.size = 20
-        self.message = 'DJJHWIUHFOJEFKFJEOPJFPO'
->>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
-        
         print 'Default values set'
     
     def askSize(self):
@@ -62,12 +52,7 @@ class Starter:
         
     def createPayload(self, random, size):
         if random:
-<<<<<<< HEAD
             atr.message = self.id_generator(atr.size, string.ascii_uppercase + string.digits)
-=======
-            self.message = str(time.time())
-            self.message += ','+self.id_generator(size-len(self.message), string.ascii_uppercase + string.digits)
->>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
         else:
             print 'Creating non-random payload' 
     
@@ -85,15 +70,9 @@ class Starter:
         print 'Starting test...'
         self.printValues()
         startTime = time.time()
-<<<<<<< HEAD
         while (time.time() < startTime+atr.time):
             self.createPayload(True, int(atr.size))
             self.sendUDP(atr.message)
-=======
-        while (time.time() < startTime+self.time):
-            self.createPayload(True, self.size)
-            self.sendUDP(self.message)
->>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
             print '.'
             time.sleep(1./int(atr.intensity))
         
@@ -114,14 +93,9 @@ while (inputText != 'q'):
     if inputText == '5':
         run.printValues()
     if inputText == '6':
-<<<<<<< HEAD
         run.startTest() 
     if inputText == '7':
         run.sendSynchInfo()
-    
-=======
-        run.startTest()
->>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
 
 
 
