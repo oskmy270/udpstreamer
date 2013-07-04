@@ -13,7 +13,7 @@ class dataParameters():
     message = 'DJJHWIUHFOJEFKFJEOPJFPO'
     
     def __init__(self):
-        print 'Class for test parameters'
+        print 'Creating class for test parameters'
 
     def setSize(self, size):
         self.size = size
@@ -29,3 +29,11 @@ class dataParameters():
     
     def getMessage(self):
         return self.message
+    def printParameters(self):
+        print 'Target IP:\t\t\t', self.targetIP
+        print 'Target port:\t\t\t', self.targetPort
+        print 'Intensity (Msg/s)\t\t', self.intensity
+        print 'Datagram size (Bytes)\t\t', self.size
+        print 'Time for test:\t\t\t', self.time
+        print 'Stream throughput (Bytes/s)\t', int(self.size)*int(self.intensity)
+        print 'Time between packets:\t\t', str(1./int(self.intensity))

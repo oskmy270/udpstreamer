@@ -18,7 +18,7 @@ class Starter:
     def askTarget(self):
         atr.setTarget(raw_input('Enter target IP: '), int(raw_input('Enter target port: ')))
     def askTimePeriod(self):
-        atr.setTime(int(raw_input('How long should the test occur? (seconds): ')))
+        atr.setTimePeriod(int(raw_input('How long should the test occur? (seconds): ')))
         
     def printValues(self):
         print 'Target IP:\t\t\t', atr.targetIP
@@ -27,7 +27,7 @@ class Starter:
         print 'Datagram size (Bytes)\t\t', atr.size
         print 'Time for test:\t\t\t', atr.time
         print 'Stream throughput (Bytes/s)\t', int(atr.size)*int(atr.intensity)
-        print 'Time between packets:', str(1./int(atr.intensity))
+        print 'Time between packets:\t\t', str(1./int(atr.intensity))
         
         
     def menu(self):
@@ -50,9 +50,10 @@ class Starter:
                              socket.SOCK_DGRAM) # UDP
         sock.sendto(atr.getMessage(), (atr.targetIP, atr.targetPort))
         
-    def createPayload(self, random, size):
+    def createPayload(self, random, size, seq):
         if random:
-            atr.message = self.id_generator(atr.size, string.ascii_uppercase + string.digits)
+            atr.message = '<sequence='+str(seq)+'>'
+            atr.message += self.id_generator(atr.size, string.ascii_uppercase + string.digits)
         else:
             print 'Creating non-random payload' 
     
@@ -68,12 +69,14 @@ class Starter:
     
     def startTest(self):
         print 'Starting test...'
+        sequence = 0
         self.printValues()
         startTime = time.time()
         while (time.time() < startTime+atr.time):
-            self.createPayload(True, int(atr.size))
+            self.createPayload(True, int(atr.size), sequence)
             self.sendUDP(atr.message)
-            print '.'
+            print sequence
+            sequence += 1
             time.sleep(1./int(atr.intensity))
         
         
