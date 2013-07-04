@@ -2,35 +2,46 @@ import socket
 import time
 import string
 import random
+import testData
+import os
 
+          
 class Starter:
-    targetIP = ''
-    targetPort = 0
-    intensity = 0
-    time = 0
-    size = 0
-    message = ''
-    
+
     def __init__(self):
+<<<<<<< HEAD
+=======
         self.targetIP = '127.0.0.1'
         self.targetPort = 5005
         self.intensity = 1
         self.time = 10
         self.size = 20
         self.message = 'DJJHWIUHFOJEFKFJEOPJFPO'
+>>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
         
         print 'Default values set'
+    
+    def askSize(self):
+        atr.setSize(int(raw_input('Enter size for each UDP packet in Bytes: ')))
+    def askIntensity(self):
+        atr.setIntensity(int(raw_input('Enter intensity (packets per second): ')))
+    def askTarget(self):
+        atr.setTarget(raw_input('Enter target IP: '), int(raw_input('Enter target port: ')))
+    def askTimePeriod(self):
+        atr.setTime(int(raw_input('How long should the test occur? (seconds): ')))
         
     def printValues(self):
-        print 'Target IP:\t\t\t', self.targetIP
-        print 'Target port:\t\t\t', self.targetPort
-        print 'Intensity (Msg/s)\t\t', self.intensity
-        print 'Datagram size (Bytes)\t\t', self.size
-        print 'Time for test:\t\t\t', self.time
-        print 'Stream throughput (Bytes/s)\t', self.size*self.intensity
+        print 'Target IP:\t\t\t', atr.targetIP
+        print 'Target port:\t\t\t', atr.targetPort
+        print 'Intensity (Msg/s)\t\t', atr.intensity
+        print 'Datagram size (Bytes)\t\t', atr.size
+        print 'Time for test:\t\t\t', atr.time
+        print 'Stream throughput (Bytes/s)\t', int(atr.size)*int(atr.intensity)
+        print 'Time between packets:', str(1./int(atr.intensity))
         
         
     def menu(self):
+        #os.system('clear')
         print '------------------------'
         print '1. Set stream intensity'
         print '2. Set stream size'
@@ -39,6 +50,7 @@ class Starter:
         print '5. Print values'
         print ''
         print '6. Start test'
+        print '7. Send synch info to server'
         print '------------------------'
         
         return raw_input('Choice (q to quit): ')
@@ -46,36 +58,70 @@ class Starter:
     def sendUDP(self, msg):
         sock = socket.socket(socket.AF_INET, # Internet
                              socket.SOCK_DGRAM) # UDP
-        sock.sendto(msg, (self.targetIP, self.targetPort))
+        sock.sendto(atr.getMessage(), (atr.targetIP, atr.targetPort))
         
     def createPayload(self, random, size):
         if random:
+<<<<<<< HEAD
+            atr.message = self.id_generator(atr.size, string.ascii_uppercase + string.digits)
+=======
             self.message = str(time.time())
             self.message += ','+self.id_generator(size-len(self.message), string.ascii_uppercase + string.digits)
+>>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
         else:
             print 'Creating non-random payload' 
     
     def id_generator(self, size, chars):
         return ''.join(random.choice(chars) for x in range(size))
     
+    def sendSynchInfo(self):
+        synchInfo = '<sync>'
+        synchInfo += '<intensity='+str(atr.intensity)+'>'
+        sock = socket.socket(socket.AF_INET, # Internet
+                             socket.SOCK_DGRAM) # UDP
+        sock.sendto(synchInfo, (atr.targetIP, atr.targetPort))
+    
     def startTest(self):
         print 'Starting test...'
         self.printValues()
         startTime = time.time()
+<<<<<<< HEAD
+        while (time.time() < startTime+atr.time):
+            self.createPayload(True, int(atr.size))
+            self.sendUDP(atr.message)
+=======
         while (time.time() < startTime+self.time):
             self.createPayload(True, self.size)
             self.sendUDP(self.message)
+>>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
             print '.'
-            time.sleep(1)
+            time.sleep(1./int(atr.intensity))
         
         
-
+atr = testData.dataParameters()
 run = Starter()
 inputText = ''
 while (inputText != 'q'):
     inputText = run.menu()
+    if inputText == '1':
+        run.askIntensity()
+    if inputText == '2':
+        run.askSize()
+    if inputText == '3':
+        run.askTarget()
+    if inputText == '4':
+        run.askTimePeriod()
+    if inputText == '5':
+        run.printValues()
     if inputText == '6':
+<<<<<<< HEAD
+        run.startTest() 
+    if inputText == '7':
+        run.sendSynchInfo()
+    
+=======
         run.startTest()
+>>>>>>> branch 'master' of https://github.com/oskmy270/udpstreamer.git
 
 
 
